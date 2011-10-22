@@ -1,0 +1,10 @@
+ * 概要
+  軽量なユーティリティクラスのまとまりです。
+
+ * ビルド方法
+  FlashDevelop のプラグイン「ExportSWC」でビルド可能です。
+    http://sourceforge.net/projects/exportswc/files/
+  
+  また、 FlashDevelop の「プロジェクト設定 ＞ ビルドコマンド ＞ ビルド後に実行するコマンドラインへ
+    "$(CompilerPath)/bin/compc.exe" -load-config+="$(ProjectDir)/AMYasume-config.xml"
+　 を設定することでビルドすることもできます。

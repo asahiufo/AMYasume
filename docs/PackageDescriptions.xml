@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<overviews>
+	<packages>
+		<package name="org.ahiufomasao.yasume.core">
+			<shortDescription>
+			<![CDATA[
+				org.ahiufomasao.yasume.core
+			]]>
+			</shortDescription>
+			<description>
+			<![CDATA[
+				org.ahiufomasao.yasume.core
+			]]>
+			</description>
+		</package>
+	</packages>
+</overviews>

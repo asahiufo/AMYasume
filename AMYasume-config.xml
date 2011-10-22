@@ -1,0 +1,11 @@
+﻿<flex-config>
+	<compiler>
+		<source-path>
+			<path-element>src</path-element>
+		</source-path>
+	</compiler>
+	<target-player>11.0</target-player>
+	<output>AMYasume_1_0_0.swc</output>
+	<include-classes>
+	</include-classes>
+</flex-config>
