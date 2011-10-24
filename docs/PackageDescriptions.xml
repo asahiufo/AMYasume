@@ -1,15 +1,51 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <overviews>
 	<packages>
-		<package name="org.ahiufomasao.yasume.core">
+		<package name="org.ahiufomasao.yasume.effects">
 			<shortDescription>
 			<![CDATA[
-				org.ahiufomasao.yasume.core
+				org.ahiufomasao.yasume.effects
 			]]>
 			</shortDescription>
 			<description>
 			<![CDATA[
-				org.ahiufomasao.yasume.core
+				org.ahiufomasao.yasume.effects
+			]]>
+			</description>
+		</package>
+		<package name="org.ahiufomasao.yasume.effects.screen">
+			<shortDescription>
+			<![CDATA[
+				org.ahiufomasao.yasume.effects.screen
+			]]>
+			</shortDescription>
+			<description>
+			<![CDATA[
+				org.ahiufomasao.yasume.effects.screen
+			]]>
+			</description>
+		</package>
+		<package name="org.ahiufomasao.yasume.events">
+			<shortDescription>
+			<![CDATA[
+				org.ahiufomasao.yasume.events
+			]]>
+			</shortDescription>
+			<description>
+			<![CDATA[
+				org.ahiufomasao.yasume.events
+			]]>
+			</description>
+		</package>
+		<package name="org.ahiufomasao.yasume.utils">
+			<shortDescription>
+			<![CDATA[
+				org.ahiufomasao.yasume.utils
+			]]>
+			</shortDescription>
+			<description>
+			<![CDATA[
+				org.ahiufomasao.yasume.utils
 			]]>
 			</description>
 		</package>

@@ -16,6 +16,7 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
+    <class path="..\AMUtility\src" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -50,7 +51,7 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <!-- example: <element path="..." /> -->
+    <element path="libs\as3commons-collections-1.3.2.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
