@@ -7,4 +7,7 @@
   
   また、 FlashDevelop の「プロジェクト設定 ＞ ビルドコマンド ＞ ビルド後に実行するコマンドラインへ
     "$(CompilerPath)/bin/compc.exe" -load-config+="$(ProjectDir)/AMYasume-config.xml"
-　 を設定することでビルドすることもできます。
+  を設定することでビルドすることもできます。
+
+ * 現状
+  とりあえず新構成でコンパイルが通るようにしただけです。

@@ -6,11 +6,11 @@ package org.ahiufomasao.yasume.effects.screen
 	// TODO: テスト
 	// TODO: asdoc
 	/**
-	 * フェードアウト効果
+	 * フェードイン効果
 	 * 
 	 * @author asahiufo/AM902
 	 */
-	public class FadeOut implements IEffect 
+	public class FadeInEffect implements IEffect 
 	{
 		private var _canvas:BitmapCanvas;
 		
@@ -27,14 +27,14 @@ package org.ahiufomasao.yasume.effects.screen
 		 * @param baseColor 基本色
 		 * @param speed     効果スピード
 		 */
-		public function FadeOut(canvas:BitmapCanvas, baseColor:uint = 0x000000, speed:uint = 20) 
+		public function FadeInEffect(canvas:BitmapCanvas, baseColor:uint = 0x000000, speed:uint = 20) 
 		{
 			_canvas = canvas;
 			
 			_baseColor = baseColor;
 			_speed     = speed;
 			
-			_alpha        = 0x00;
+			_alpha        = 0xFF;
 			_currentColor = _alpha * 0x1000000 + baseColor;
 		}
 		
@@ -43,7 +43,7 @@ package org.ahiufomasao.yasume.effects.screen
 		 */
 		public function initialize():void 
 		{
-			_alpha        = 0x00;
+			_alpha        = 0xFF;
 			_currentColor = _alpha * 0x1000000 + _baseColor;
 		}
 		
@@ -52,15 +52,15 @@ package org.ahiufomasao.yasume.effects.screen
 		 */
 		public function exec():Boolean 
 		{
-			if (_alpha == 0xFF)
+			if (_alpha == 0x00)
 			{
 				return true;
 			}
 			
-			_alpha += _speed;
-			if (_alpha > 0xFF)
+			_alpha -= _speed;
+			if (_alpha < 0x00)
 			{
-				_alpha = 0xFF;
+				_alpha = 0x00;
 			}
 			_currentColor = _alpha * 0x1000000 + _baseColor;
 			
