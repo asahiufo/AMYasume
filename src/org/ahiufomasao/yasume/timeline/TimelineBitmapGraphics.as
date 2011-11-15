@@ -5,14 +5,14 @@
 	import flash.utils.Dictionary;
 	
 	/**
-	 * <code>TimelineGraphics</code> クラスは、<code>MainTimeline</code> クラスと同様の構造で各フレームのグラフィックデータを管理します.
+	 * <code>TimelineBitmapGraphics</code> クラスは、<code>MainTimeline</code> クラスと同様の構造で各フレームのグラフィックデータを管理します.
 	 * <p>
 	 * <code>addGraphic</code>、<code>setGraphic</code> メソッドで、
 	 * 指定した名前のフレームの、指定したグラフィック番号へ 
 	 * <code>BitmapData</code> オブジェクトと、グラフィックの中心座標を登録します。
 	 * また、<code>TimelineGraphicsLoader</code> オブジェクトに任意のデータを設定し、
 	 * <code>TimelineGraphicsLoader</code> オブジェクトの <code>createTimelineGraphics</code> メソッドを呼び出すことで、
-	 * 外部グラフィックファイルのグラフィックデータが設定された <code>TimelineGraphics</code> を何度でも生成できます。
+	 * 外部グラフィックファイルのグラフィックデータが設定された <code>TimelineBitmapGraphics</code> を何度でも生成できます。
 	 * </p>
 	 * 
 	 * @author asahiufo/AM902
@@ -22,14 +22,14 @@
 	 * @see TimelineGraphicsLoader
 	 * @see TimelineGraphicsLoader#createTimelineGraphics()
 	 */
-	public class TimelineGraphics 
+	public class TimelineBitmapGraphics implements ITimelineGraphics 
 	{
 		private var _childTimelineGraphicsDict:Dictionary; // データを登録するDictionary
 		
 		/**
-		 * 新しい <code>TimelineGraphics</code> クラスのインスタンスを生成します.
+		 * 新しい <code>TimelineBitmapGraphics</code> クラスのインスタンスを生成します.
 		 */
-		public function TimelineGraphics() 
+		public function TimelineBitmapGraphics() 
 		{
 			_childTimelineGraphicsDict = new Dictionary();
 		}

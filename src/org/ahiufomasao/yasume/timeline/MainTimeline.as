@@ -1,6 +1,6 @@
 ﻿package org.ahiufomasao.yasume.timeline 
 {
-	import flash.display.BitmapData;
+	import flash.display.IBitmapDrawable;
 	import flash.errors.IllegalOperationError;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
@@ -235,7 +235,7 @@
 		 */
 		public function draw(
 		    canvas:BitmapCanvas,
-		    graphics:TimelineGraphics,
+		    graphics:ITimelineGraphics,
 			timelineDrawable:ITimelineDrawable,
 			frameName:String = ""
 		):void
@@ -253,24 +253,24 @@
 				}
 			}
 			
-			var graphicNo:uint       = currentChildTimeline.currentGraphicNo;
-			var bmpData:BitmapData   = graphics.getGraphic(frameName, graphicNo);
-			var centerPosition:Point = graphics.getCenterPosition(frameName, graphicNo);
-			var centerX:Number       = centerPosition.x;
-			var centerY:Number       = centerPosition.y;
-			var scaleX:Number        = timelineDrawable.drawingScaleX;
-			var scaleY:Number        = timelineDrawable.drawingScaleY;
-			var rotation:Number      = timelineDrawable.drawingRotation;
-			var reversing:Boolean    = timelineDrawable.drawingReversing;
-			_point.x                 = timelineDrawable.drawingPositionX;
-			_point.y                 = timelineDrawable.drawingPositionY;
+			var graphicNo:uint              = currentChildTimeline.currentGraphicNo;
+			var bmpDrawable:IBitmapDrawable = graphics.getGraphic(frameName, graphicNo);
+			var centerPosition:Point        = graphics.getCenterPosition(frameName, graphicNo);
+			var centerX:Number              = centerPosition.x;
+			var centerY:Number              = centerPosition.y;
+			var scaleX:Number               = timelineDrawable.drawingScaleX;
+			var scaleY:Number               = timelineDrawable.drawingScaleY;
+			var rotation:Number             = timelineDrawable.drawingRotation;
+			var reversing:Boolean           = timelineDrawable.drawingReversing;
+			_point.x                        = timelineDrawable.drawingPositionX;
+			_point.y                        = timelineDrawable.drawingPositionY;
 			
 			// Matrixを使用しない
 			if (scaleX == 1 && scaleY == 1 && !reversing && rotation == 0)
 			{
 				_point.x -= centerX;
 				_point.y -= centerY;
-				canvas.draw(bmpData, _point);
+				canvas.draw(bmpDrawable, _point);
 			}
 			// 使用する
 			else
@@ -322,7 +322,7 @@
 				
 				_point.x -= centerX;
 				_point.y -= centerY;
-				canvas.draw(bmpData, _point, _matrix);
+				canvas.draw(bmpDrawable, _point, _matrix);
 			}
 			
 			// エリア表示

@@ -8,6 +8,8 @@
 	import org.ahiufomasao.yasume.events.MapHitEvent;
 	import org.ahiufomasao.yasume.utils.HitDirection;
 	import org.ahiufomasao.yasume.utils.Tester;
+	import org.as3commons.collections.framework.IIterable;
+	import org.as3commons.collections.framework.IIterator;
 	
 	/**
 	 * <code>test</code> メソッドを呼び出した際、<code>IMapHittable</code> にとっての右にある壁に当たりがあった場合に送出されます.
@@ -195,12 +197,15 @@
 		 * @param mapData        当たり判定対象のマップデータです。
 		 * @param mapObjectsData 当たり判定対象のマップオブジェクトデータです。
 		 */
-		public function test(mapHittables:Vector.<IMapHittable>, mapData:MapData = null, mapObjectsData:MapObjectsData = null):void
+		public function test(mapHittables:IIterable, mapData:MapData = null, mapObjectsData:MapObjectsData = null):void
 		{
 			_throughState.resetTested();
 			
-			for each (var mapHittable:IMapHittable in mapHittables)
+			var it:IIterator = mapHittables.iterator();
+			while (it.hasNext())
 			{
+				var mapHittable:IMapHittable = IMapHittable(it.next());
+				
 				// 処理前の当たり状況保存
 				var sevedRightHit:Boolean  = mapHittable.rightHit;
 				var savedLeftHit:Boolean   = mapHittable.leftHit;
