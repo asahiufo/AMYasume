@@ -332,7 +332,7 @@
 		 * 
 		 * @throws ArgumentError 指定したインデックスのレイヤーが存在しない場合にスローされます。
 		 */
-		public function calculateXFromViewerX(layerIndex:uint, x:Number):Number
+		public function calculateViewXFromX(layerIndex:uint, x:Number):Number
 		{
 			if (!(0 <= layerIndex && layerIndex < mapLength))
 			{
@@ -351,7 +351,7 @@
 		 * 
 		 * @throws ArgumentError 指定したインデックスのレイヤーが存在しない場合にスローされます。
 		 */
-		public function calculateYFromViewerY(layerIndex:uint, y:Number):Number
+		public function calculateViewYFromY(layerIndex:uint, y:Number):Number
 		{
 			if (!(0 <= layerIndex && layerIndex < mapLength))
 			{
