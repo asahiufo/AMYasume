@@ -77,6 +77,7 @@
 	 */
 	[Event(name="leaveBottom", type="org.ahiufomasao.yasume.events.MapHitEvent")]
 	
+	// TODO: 平坦な地面に '00f' な当たり判定を並べると、壁扱いされて進めなくなるバグ
 	/**
 	 * <code>MapHitTester</code> クラスは、<code>IMapHittable</code> オブジェクトとステージとの当たり判定を行います.
 	 * <p>
@@ -112,6 +113,7 @@
 		
 		private var _rect1:Rectangle;      // 汎用矩形1
 		private var _rect2:Rectangle;      // 汎用矩形2
+		private var _rect3:Rectangle;      // 汎用矩形3
 		
 		/**
 		 * 新しい <code>MapHitTester</code> クラスのインスタンスを生成します.
@@ -131,6 +133,7 @@
 			
 			_rect1         = new Rectangle();
 			_rect2         = new Rectangle();
+			_rect3         = new Rectangle();
 		}
 		
 		/**
@@ -451,16 +454,27 @@
 		 * @param mapHittable      判定中当たり判定可能オブジェクト
 		 * @param targetHitArea    hitAreaと当たり判定対象矩形
 		 * @param targetHitSetting 当たり判定対象の当たり設定
+		 * @param mapData          マップデータ
+		 * @param mapObjectsData   マップオブジェクトデータ
 		 */
-		private function _testHitSetting(hitArea:Rectangle, mapHittable:IMapHittable, targetHitArea:Rectangle, targetHitSetting:HitSetting, mapData:MapData, mapObjectsData:MapObjectsData = null):void
-		{
+		private function _testHitSetting(
+			hitArea:Rectangle,
+			mapHittable:IMapHittable,
+			targetHitArea:Rectangle,
+			targetHitSetting:HitSetting,
+			mapData:MapData,
+			mapObjectsData:MapObjectsData = null
+		):void {
 			// すり抜け中である場合処理しない
 			if (_throughState.isThrough(mapHittable, targetHitSetting))
 			{
 				return;
 			}
 			
-			var hitDirection:HitDirection = Tester.testHitRectangleDirection(hitArea, targetHitArea);
+			// 重なり部分の矩形
+			var outHitPartArea:Rectangle = _rect3;
+			
+			var hitDirection:HitDirection = Tester.testHitRectangleDirection(hitArea, targetHitArea, outHitPartArea);
 			
 			// すり抜けがある場合
 			if ((hitDirection == HitDirection.RIGHT && mapHittable.throughRight) ||
@@ -489,6 +503,7 @@
 					{
 						break;
 					}
+					
 					event = new MapHitEvent(MapHitEvent.HIT_RIGHT);
 					event.mapHittable    = mapHittable;
 					event.hitArea        = mapHittable.stageHitArea;
@@ -512,6 +527,7 @@
 					{
 						break;
 					}
+					
 					event = new MapHitEvent(MapHitEvent.HIT_LEFT);
 					event.mapHittable    = mapHittable;
 					event.hitArea        = mapHittable.stageHitArea;
@@ -525,7 +541,7 @@
 					break;
 				// 天井
 				case HitDirection.TOP:
-					// 左から来るオブジェクトに対して当たりが無いなら当たりとしない
+					// 下から来るオブジェクトに対して当たりが無いなら当たりとしない
 					if (!targetHitSetting.bottomHittable)
 					{
 						break;
@@ -535,6 +551,7 @@
 					{
 						break;
 					}
+					
 					event = new MapHitEvent(MapHitEvent.HIT_TOP);
 					event.mapHittable    = mapHittable;
 					event.hitArea        = mapHittable.stageHitArea;
@@ -548,7 +565,7 @@
 					break;
 				// 地面
 				case HitDirection.BOTTOM:
-					// 左から来るオブジェクトに対して当たりが無いなら当たりとしない
+					// 上から来るオブジェクトに対して当たりが無いなら当たりとしない
 					if (!targetHitSetting.topHittable)
 					{
 						break;
@@ -558,6 +575,7 @@
 					{
 						break;
 					}
+					
 					event = new MapHitEvent(MapHitEvent.HIT_BOTTOM);
 					event.mapHittable    = mapHittable;
 					event.hitArea        = mapHittable.stageHitArea;
