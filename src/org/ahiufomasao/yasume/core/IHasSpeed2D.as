@@ -2,11 +2,11 @@ package org.ahiufomasao.yasume.core
 {
 	
 	/**
-	 * <code>IHasSpeed</code> はスピードを持つオブジェクトによって実装されます.
+	 * <code>IHasSpeed2D</code> はスピードを持つ 2D オブジェクトによって実装されます.
 	 * 
 	 * @author asahiufo/AM902
 	 */
-	public interface IHasSpeed 
+	public interface IHasSpeed2D 
 	{
 		/**
 		 * <code>x</code> 軸方向のスピードです.

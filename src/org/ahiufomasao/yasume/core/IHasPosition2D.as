@@ -2,11 +2,11 @@
 {
 	
 	/**
-	 * <code>IHasPosition</code> は座標情報を持つオブジェクトによって実装されます.
+	 * <code>IHasPosition2D</code> は座標情報を持つ 2D オブジェクトによって実装されます.
 	 * 
 	 * @author asahiufo/AM902
 	 */
-	public interface IHasPosition 
+	public interface IHasPosition2D 
 	{
 		/**
 		 * オブジェクトの x 座標です.

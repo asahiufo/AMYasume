@@ -1,7 +1,7 @@
 ﻿package org.ahiufomasao.yasume.timeline 
 {
 	import flash.events.IEventDispatcher;
-	import org.ahiufomasao.yasume.core.IHasPosition;
+	import org.ahiufomasao.yasume.core.IHasPosition2D;
 	
 	/**
 	 * <code>HitAreaHitTester</code> オブジェクトの <code>addDefaultHitEventListener</code> メソッドを呼び出した後、
@@ -55,7 +55,7 @@
 	 * @author asahiufo/AM902
 	 * @see HitAreaHitTester
 	 */
-	public interface IHitAreaHittable extends IHasPosition, IEventDispatcher
+	public interface IHitAreaHittable extends IHasPosition2D, IEventDispatcher
 	{
 		/**
 		 * 当たり判定処理に使用する押し当たり判定エリアです.
