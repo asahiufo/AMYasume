@@ -224,6 +224,35 @@
 		}
 		
 		/**
+		 * 登録されたタスクのメソッドを呼び出します.
+		 * 
+		 * @param funcName 呼び出すメソッド名です。この名前のメソッドが定義されていないタスクは無視します。
+		 * @param context  実行コンテキストです。省略した場合 <code>execContext</code> プロパティが使用されます。
+		 */
+		public function callTaskFunction(funcName:String, context:Object = null):void
+		{
+			// 使用コンテキスト判定
+			if (context == null)
+			{
+				context = _execContext;
+			}
+			
+			var it:IIterator = iterator();
+			while (it.hasNext())
+			{
+				var t:ITask = it.next() as ITask;
+				// メソッドが設定されていない場合スキップ
+				if (!(funcName in t))
+				{
+					continue;
+				}
+				
+				var func:Function = t[funcName] as Function;
+				func.call(t, context);
+			}
+		}
+		
+		/**
 		 * 登録されたタスクをすべて実行します.
 		 * 
 		 * @param context 実行コンテキストです。省略した場合 <code>execContext</code> プロパティが使用されます。

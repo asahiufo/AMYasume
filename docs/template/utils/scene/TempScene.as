@@ -1,5 +1,7 @@
-package  
+package scenes 
 {
+	import org.ahiufomasao.yasume.effects.screen.FadeInEffect;
+	import org.ahiufomasao.yasume.effects.screen.FadeOutEffect;
 	import org.ahiufomasao.yasume.utils.Scene;
 	
 	/**
@@ -24,6 +26,9 @@ package
 		 */
 		public function initialize(context:ITempSceneExecCtx):void
 		{
+			setSceneStartEffect(new FadeInEffect(context.screenEffectCanvas));
+			setSceneEndEffect(new FadeOutEffect(context.screenEffectCanvas));
+			
 			changeExec(_execTemp);
 		}
 		
