@@ -1,6 +1,7 @@
 ﻿package org.ahiufomasao.yasume.timeline 
 {
 	import flash.display.BitmapData;
+	import flash.display.IBitmapDrawable;
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
 	
@@ -124,7 +125,7 @@
 		 * @throws ArgumentError 指定された名前のフレームが存在しない場合にスローされます。
 		 * @throws ArgumentError 指定されたグラフィック番号が登録されていない場合にスローされます。
 		 */
-		public function getGraphic(frameName:String, graphicNo:uint):BitmapData
+		public function getGraphic(frameName:String, graphicNo:uint):IBitmapDrawable
 		{
 			// まだ作られていないフレーム名である場合エラー
 			if (_childTimelineGraphicsDict[frameName] == undefined)

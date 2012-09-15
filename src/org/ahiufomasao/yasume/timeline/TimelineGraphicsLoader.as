@@ -461,7 +461,7 @@
 		 * @throws IllegalOperationError <code>loadGraphics</code> メソッド未実行により、グラフィックデータのロードが完了していない場合にスローされます。
 		 * @throws IllegalOperationError <code>loadGraphics</code> メソッド実行後、グラフィックデータのロードが未完了である場合にスローされます。
 		 */
-		public function createTimelineGraphics():TimelineGraphics
+		public function createTimelineGraphics():ITimelineGraphics
 		{
 			if (_graphicsLoader == null)
 			{
@@ -472,7 +472,7 @@
 				throw new IllegalOperationError("グラフィックデータのロードが完了していません。ロードが完了するまで待ってください。");
 			}
 			
-			var timelineGraphics:TimelineGraphics = new TimelineGraphics();
+			var timelineGraphics:TimelineBitmapGraphics = new TimelineBitmapGraphics();
 			var frameNames:Vector.<String> = Vector.<String>(_graphicsLoader.getLoaderCollectionsKeys());
 			var frameNamesLength:uint = frameNames.length;
 			

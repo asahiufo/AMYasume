@@ -2,8 +2,8 @@
 {
 	import flash.events.IEventDispatcher;
 	import flash.geom.Rectangle;
-	import org.ahiufomasao.yasume.core.IHasPosition;
-	import org.ahiufomasao.yasume.core.IHasSpeed;
+	import org.ahiufomasao.yasume.core.IHasPosition2D;
+	import org.ahiufomasao.yasume.core.IHasSpeed2D;
 	
 	/**
 	 * 右にある壁に当たりがあった場合に送出されます.
@@ -70,7 +70,7 @@
 	 * @author asahiufo/AM902
 	 * @see MapHitTester
 	 */
-	public interface IMapHittable extends IHasPosition, IHasSpeed, IEventDispatcher
+	public interface IMapHittable extends IHasPosition2D, IHasSpeed2D, IEventDispatcher
 	{
 		/**
 		 * 判定するステージ当たり判定エリアを表す矩形です.

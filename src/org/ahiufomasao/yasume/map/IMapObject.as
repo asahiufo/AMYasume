@@ -1,7 +1,7 @@
 ﻿package org.ahiufomasao.yasume.map 
 {
 	import flash.events.IEventDispatcher;
-	import org.ahiufomasao.yasume.core.IHasPosition;
+	import org.ahiufomasao.yasume.core.IHasPosition2D;
 	
 	/**
 	 * <code>IMapObject</code> インターフェイスはマップに配置するオブジェクトによって実装されます.
@@ -12,7 +12,7 @@
 	 * 
 	 * @author asahiufo/AM902
 	 */
-	public interface IMapObject extends IHasPosition, IEventDispatcher
+	public interface IMapObject extends IHasPosition2D, IEventDispatcher
 	{
 	}
 }
