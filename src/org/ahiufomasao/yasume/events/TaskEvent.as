@@ -3,7 +3,7 @@
 	import flash.events.Event;
 	
 	/**
-	 * <code>TaskEvent</code> クラスは <code>Task</code>クラス を操作することによって送出されます.
+	 * <code>TaskEvent</code> クラスは <code>Task</code>　クラスを操作することによって送出されます.
 	 * 
 	 * @author asahiufo/AM902
 	 * @see Task
