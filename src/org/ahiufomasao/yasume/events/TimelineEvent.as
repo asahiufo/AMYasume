@@ -38,6 +38,36 @@ package org.ahiufomasao.yasume.events
 		 * @eventType changeFrameAfter
 		 */
 		public static const CHANGE_FRAME_AFTER:String = "changeFrameAfter";
+		
+		/**
+		 * <code>TimelineEvent.ANIMATE_BEFORE</code> 定数は、
+		 * <code>type</code> プロパティ（<code>animateBefore</code> イベントオブジェクト）の値を定義します.
+		 * <table class="innertable">
+		 * <tr><th>プロパティ</th><th>値</th></tr>
+		 * <tr><td>bubbles</td><td><code>false</code></td></tr>
+		 * <tr><td>cancelable</td><td><code>false</code> は、キャンセルするデフォルトの動作がないことを示します。</td></tr>
+		 * <tr><td>currentTarget</td><td>イベントリスナーで <code>TimelineEvent</code> オブジェクトをアクティブに処理しているオブジェクトです。</td></tr>
+		 * <tr><td>target</td><td>イベントの発生元のオブジェクトです。</td></tr>
+		 * </table>
+		 * 
+		 * @eventType animateBefore
+		 */
+		public static const ANIMATE_BEFORE:String = "animateBefore";
+		/**
+		 * <code>TimelineEvent.ANIMATE_AFTER</code> 定数は、
+		 * <code>type</code> プロパティ（<code>animateAfter</code> イベントオブジェクト）の値を定義します.
+		 * <table class="innertable">
+		 * <tr><th>プロパティ</th><th>値</th></tr>
+		 * <tr><td>bubbles</td><td><code>false</code></td></tr>
+		 * <tr><td>cancelable</td><td><code>false</code> は、キャンセルするデフォルトの動作がないことを示します。</td></tr>
+		 * <tr><td>currentTarget</td><td>イベントリスナーで <code>TimelineEvent</code> オブジェクトをアクティブに処理しているオブジェクトです。</td></tr>
+		 * <tr><td>target</td><td>イベントの発生元のオブジェクトです。</td></tr>
+		 * </table>
+		 * 
+		 * @eventType animateAfter
+		 */
+		public static const ANIMATE_AFTER:String = "animateAfter";
+		
 		/**
 		 * <code>TimelineEvent.ANIMATION_END</code> 定数は、
 		 * <code>type</code> プロパティ（<code>animationEnd</code> イベントオブジェクト）の値を定義します.

@@ -29,6 +29,23 @@
 	[Event(name="changeFrameAfter", type="org.ahiufomasao.yasume.events.TimelineEvent")]
 	
 	/**
+	 * <code>animate</code> メソッドを呼び出した際、フレームが変更される直前に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.TimelineEvent.ANIMATE_BEFORE
+	 * 
+	 * @see #animate()
+	 */
+	[Event(name="animateBefore", type="org.ahiufomasao.yasume.events.TimelineEvent")]
+	/**
+	 * <code>animate</code> メソッドを呼び出した際、フレームが変更される直後に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.TimelineEvent.ANIMATE_AFTER
+	 * 
+	 * @see #animate()
+	 */
+	[Event(name="animateAfter", type="org.ahiufomasao.yasume.events.TimelineEvent")]
+	
+	/**
 	 * <code>animate</code> メソッドを呼び出した際、現在有効な子タイムラインのフレームの最後まで再生が終わった場合に送出されます.
 	 * 
 	 * @eventType org.ahiufomasao.yasume.events.TimelineEvent.ANIMATION_END
@@ -285,7 +302,11 @@
 				throw new IllegalOperationError("子タイムラインが1件も登録されていません。");
 			}
 			
+			dispatchEvent(new TimelineEvent(TimelineEvent.ANIMATE_BEFORE));
+			
 			currentChildTimeline.animate();
+			
+			dispatchEvent(new TimelineEvent(TimelineEvent.ANIMATE_AFTER));
 		}
 		
 		// TODO: テスト方法確定後に実施
