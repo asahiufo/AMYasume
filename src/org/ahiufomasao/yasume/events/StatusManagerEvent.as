@@ -42,6 +42,66 @@
 		 * @eventType changeStatusAfter
 		 */
 		public static const CHANGE_STATUS_AFTER:String = "changeStatusAfter";
+		/**
+		 * <code>StatusManagerEvent.EXEC_BEFORE</code> 定数は、
+		 * <code>type</code> プロパティ（<code>execBefore</code> イベントオブジェクト）の値を定義します.
+		 * <table class="innertable">
+		 * <tr><th>プロパティ</th><th>値</th></tr>
+		 * <tr><td>bubbles</td><td><code>false</code></td></tr>
+		 * <tr><td>cancelable</td><td><code>false</code> は、キャンセルするデフォルトの動作がないことを示します。</td></tr>
+		 * <tr><td>currentTarget</td><td>イベントリスナーで <code>StatusManagerEvent</code> オブジェクトをアクティブに処理しているオブジェクトです。</td></tr>
+		 * <tr><td>target</td><td>イベントの発生元の <code>StatusManager</code> オブジェクトです。</td></tr>
+		 * <tr><td>context</td><td>実行コンテキストです。</td></tr>
+		 * </table>
+		 * 
+		 * @eventType execBefore
+		 */
+		public static const EXEC_BEFORE:String = "execBefore";
+		/**
+		 * <code>StatusManagerEvent.EXEC_AFTER</code> 定数は、
+		 * <code>type</code> プロパティ（<code>execAfter</code> イベントオブジェクト）の値を定義します.
+		 * <table class="innertable">
+		 * <tr><th>プロパティ</th><th>値</th></tr>
+		 * <tr><td>bubbles</td><td><code>false</code></td></tr>
+		 * <tr><td>cancelable</td><td><code>false</code> は、キャンセルするデフォルトの動作がないことを示します。</td></tr>
+		 * <tr><td>currentTarget</td><td>イベントリスナーで <code>StatusManagerEvent</code> オブジェクトをアクティブに処理しているオブジェクトです。</td></tr>
+		 * <tr><td>target</td><td>イベントの発生元の <code>StatusManager</code> オブジェクトです。</td></tr>
+		 * <tr><td>context</td><td>実行コンテキストです。</td></tr>
+		 * </table>
+		 * 
+		 * @eventType execAfter
+		 */
+		public static const EXEC_AFTER:String = "execAfter";
+		/**
+		 * <code>StatusManagerEvent.DRAW_BEFORE</code> 定数は、
+		 * <code>type</code> プロパティ（<code>drawBefore</code> イベントオブジェクト）の値を定義します.
+		 * <table class="innertable">
+		 * <tr><th>プロパティ</th><th>値</th></tr>
+		 * <tr><td>bubbles</td><td><code>false</code></td></tr>
+		 * <tr><td>cancelable</td><td><code>false</code> は、キャンセルするデフォルトの動作がないことを示します。</td></tr>
+		 * <tr><td>currentTarget</td><td>イベントリスナーで <code>StatusManagerEvent</code> オブジェクトをアクティブに処理しているオブジェクトです。</td></tr>
+		 * <tr><td>target</td><td>イベントの発生元の <code>StatusManager</code> オブジェクトです。</td></tr>
+		 * <tr><td>context</td><td>描画コンテキストです。</td></tr>
+		 * </table>
+		 * 
+		 * @eventType drawBefore
+		 */
+		public static const DRAW_BEFORE:String = "drawBefore";
+		/**
+		 * <code>StatusManagerEvent.DRAW_AFTER</code> 定数は、
+		 * <code>type</code> プロパティ（<code>drawAfter</code> イベントオブジェクト）の値を定義します.
+		 * <table class="innertable">
+		 * <tr><th>プロパティ</th><th>値</th></tr>
+		 * <tr><td>bubbles</td><td><code>false</code></td></tr>
+		 * <tr><td>cancelable</td><td><code>false</code> は、キャンセルするデフォルトの動作がないことを示します。</td></tr>
+		 * <tr><td>currentTarget</td><td>イベントリスナーで <code>StatusManagerEvent</code> オブジェクトをアクティブに処理しているオブジェクトです。</td></tr>
+		 * <tr><td>target</td><td>イベントの発生元の <code>StatusManager</code> オブジェクトです。</td></tr>
+		 * <tr><td>context</td><td>描画コンテキストです。</td></tr>
+		 * </table>
+		 * 
+		 * @eventType drawAfter
+		 */
+		public static const DRAW_AFTER:String = "drawAfter";
 		
 		private var _status:String;  // ステータス
 		private var _context:Object; // コンテキスト

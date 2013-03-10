@@ -16,6 +16,38 @@ package org.ahiufomasao.yasume.utils
 	 * @eventType org.ahiufomasao.yasume.events.StatusManagerEvent.CHANGE_STATUS_AFTER
 	 */
 	[Event(name="changeStatusAfter", type="org.ahiufomasao.yasume.events.StatusManagerEvent")]
+	/**
+	 * <code>executor</code> のメソッドが呼び出される直前に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.StatusManagerEvent.EXEC_BEFORE
+	 * 
+	 * @see #exec()
+	 */
+	[Event(name="execBefore", type="org.ahiufomasao.yasume.events.StatusManagerEvent")]
+	/**
+	 * <code>executor</code> のメソッドが呼び出された直後に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.StatusManagerEvent.EXEC_AFTER
+	 * 
+	 * @see #exec()
+	 */
+	[Event(name="execAfter", type="org.ahiufomasao.yasume.events.StatusManagerEvent")]
+	/**
+	 * <code>drawer</code> のメソッドが呼び出される直前に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.StatusManagerEvent.DRAW_BEFORE
+	 * 
+	 * @see #draw()
+	 */
+	[Event(name="drawBefore", type="org.ahiufomasao.yasume.events.StatusManagerEvent")]
+	/**
+	 * <code>drawer</code> のメソッドが呼び出された直後に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.StatusManagerEvent.DRAW_AFTER
+	 * 
+	 * @see #draw()
+	 */
+	[Event(name="drawAfter", type="org.ahiufomasao.yasume.events.StatusManagerEvent")]
 	
 	/**
 	 * ステータスマネージャー
@@ -40,6 +72,7 @@ package org.ahiufomasao.yasume.utils
 		*/
 		
 		private var _statuses:Dictionary;
+		private var _statusIDs:Vector.<String>;
 		
 		private var _execCtx:Object;
 		private var _drawCtx:Object;
@@ -54,12 +87,14 @@ package org.ahiufomasao.yasume.utils
 		 * @param setting ステータス設定
 		 * @param execCtx 実行コンテキスト
 		 * @param drawCtx 描画コンテキスト
+		 * @param debug   メソッドのスケルトンを取得するなら true を指定する（スケルトンを取得したら false に戻して使うこと。）
 		 */
-		public function StatusManager(target:Object, setting:XML, execCtx:Object = null, drawCtx:Object = null) 
+		public function StatusManager(target:Object, setting:XML, execCtx:Object = null, drawCtx:Object = null, debug:Boolean = false) 
 		{
 			super();
 			
 			_statuses = new Dictionary();
+			_statusIDs = new Vector.<String>();
 			
 			var errorMessage:String = "";
 			
@@ -82,9 +117,10 @@ package org.ahiufomasao.yasume.utils
 						}
 					}
 					
-					var status:Status = new Status(String(statusXML.@id), target, statusXML);
+					var status:Status = new Status(String(statusXML.@id), target, statusXML, debug);
 					
 					_statuses[String(statusXML.@id)] = status;
+					_statusIDs.push(String(statusXML.@id));
 				}
 			}
 			
@@ -132,19 +168,22 @@ package org.ahiufomasao.yasume.utils
 				dispatchEvent(changeAfterEvent);
 			}
 			
+			var execBeforeEvent:StatusManagerEvent = new StatusManagerEvent(StatusManagerEvent.EXEC_BEFORE);
+			execBeforeEvent.status = _currentStatus.name;
+			execBeforeEvent.context = context;
+			dispatchEvent(execBeforeEvent);
+			
 			_currentStatus.runExecutor(context);
+			
+			var execAfterEvent:StatusManagerEvent = new StatusManagerEvent(StatusManagerEvent.EXEC_AFTER);
+			execAfterEvent.status = _currentStatus.name;
+			execAfterEvent.context = context;
+			dispatchEvent(execAfterEvent);
 			
 			var nextStatus:String = _currentStatus.judgeCondition(context);
 			if (nextStatus != "")
 			{
-				var changeBeforeEvent:StatusManagerEvent = new StatusManagerEvent(StatusManagerEvent.CHANGE_STATUS_BEFORE);
-				changeBeforeEvent.status = _currentStatus.name;
-				changeBeforeEvent.context = context;
-				dispatchEvent(changeBeforeEvent);
-				
-				_currentStatus.runTerminator(context);
-				_currentStatus = _statuses[nextStatus] as Status;
-				_initialized = false;
+				changeStatus(nextStatus, context);
 			}
 		}
 		
@@ -159,7 +198,61 @@ package org.ahiufomasao.yasume.utils
 			{
 				context = _drawCtx;
 			}
+			
+			var drawBeforeEvent:StatusManagerEvent = new StatusManagerEvent(StatusManagerEvent.DRAW_BEFORE);
+			drawBeforeEvent.status = _currentStatus.name;
+			drawBeforeEvent.context = context;
+			dispatchEvent(drawBeforeEvent);
+			
 			_currentStatus.runDrawer(context);
+			
+			var drawAfterEvent:StatusManagerEvent = new StatusManagerEvent(StatusManagerEvent.DRAW_AFTER);
+			drawAfterEvent.status = _currentStatus.name;
+			drawAfterEvent.context = context;
+			dispatchEvent(drawAfterEvent);
+		}
+		
+		/**
+		 * ステータス変更
+		 * @param nextStatus 遷移先ステータス名
+		 * @param context    実行コンテキスト
+		 */
+		public function changeStatus(nextStatus:String, context:Object = null):void
+		{
+			var changeBeforeEvent:StatusManagerEvent = new StatusManagerEvent(StatusManagerEvent.CHANGE_STATUS_BEFORE);
+			changeBeforeEvent.status = _currentStatus.name;
+			changeBeforeEvent.context = context;
+			dispatchEvent(changeBeforeEvent);
+			
+			_currentStatus.runTerminator(context);
+			_currentStatus = _statuses[nextStatus] as Status;
+			_initialized = false;
+		}
+		
+		/**
+		 * クラスの文字列表現.
+		 * <p>
+		 * 共通条件の生成は自動で出来ない。
+		 * </p>
+		 * 
+		 * @return 設定したステータスのメソッドのスケルトンを返す。
+		 */
+		override public function toString():String
+		{
+			var skeleton:String = "";
+			for each (var statusID:String in _statusIDs)
+			{
+				skeleton += "\n";
+				skeleton += "// ========================================================================================\n";
+				skeleton += "// " + statusID + "\n";
+				skeleton += "// ========================================================================================\n";
+				skeleton += Status(_statuses[statusID]).toString();
+			}
+			skeleton += "\n";
+			skeleton += "// ========================================================================================\n";
+			skeleton += "// 共通条件\n";
+			skeleton += "// ========================================================================================\n";
+			return skeleton;
 		}
 	}
 }
@@ -167,6 +260,8 @@ import flash.utils.Dictionary;
 
 class Status
 {
+	private var _skeleton:String;
+	
 	private var _name:String;
 	
 	private var _thisObject:Object;
@@ -188,9 +283,12 @@ class Status
 	 * @param name   ステータス名
 	 * @param target ステータス制御対象オブジェクト
 	 * @param status ステータス設定データ
+	 * @param debug  メソッドのスケルトンを取得するなら true を指定する
 	 */
-	public function Status(name:String, target:Object, status:XML)
+	public function Status(name:String, target:Object, status:XML, debug:Boolean = false)
 	{
+		_skeleton = "";
+		
 		_name = name;
 		
 		_conditions = new Vector.<Function>();
@@ -221,7 +319,14 @@ class Status
 			{
 				funcName = String(status.initializer);
 			}
-			_initializer = _thisObject[funcName] as Function;
+			if (debug)
+			{
+				_addExecSkeleton(funcName);
+			}
+			else
+			{
+				_initializer = _thisObject[funcName] as Function;
+			}
 		}
 		// executor
 		if (status.executor == undefined)
@@ -238,7 +343,14 @@ class Status
 			{
 				funcName = String(status.executor);
 			}
-			_executor = _thisObject[funcName] as Function;
+			if (debug)
+			{
+				_addExecSkeleton(funcName);
+			}
+			else
+			{
+				_executor = _thisObject[funcName] as Function;
+			}
 		}
 		// drawer
 		if (status.drawer != undefined)
@@ -251,7 +363,14 @@ class Status
 			{
 				funcName = String(status.drawer);
 			}
-			_drawer = _thisObject[funcName] as Function;
+			if (debug)
+			{
+				_addDrawSkeleton(funcName);
+			}
+			else
+			{
+				_drawer = _thisObject[funcName] as Function;
+			}
 		}
 		// terminator
 		if (status.terminator != undefined)
@@ -264,7 +383,14 @@ class Status
 			{
 				funcName = String(status.terminator);
 			}
-			_terminator = _thisObject[funcName] as Function;
+			if (debug)
+			{
+				_addExecSkeleton(funcName);
+			}
+			else
+			{
+				_terminator = _thisObject[funcName] as Function;
+			}
 		}
 		
 		// condition
@@ -289,9 +415,16 @@ class Status
 					funcName = String(conditionXML);
 				}
 				
-				var condition:Function = _thisObject[funcName] as Function;
-				_conditions.push(condition);
-				_nextStatuses[condition] = String(conditionXML.@next);
+				if (debug)
+				{
+					_addCondSkeleton(funcName);
+				}
+				else
+				{
+					var condition:Function = _thisObject[funcName] as Function;
+					_conditions.push(condition);
+					_nextStatuses[condition] = String(conditionXML.@next);
+				}
 			}
 		}
 		
@@ -371,5 +504,50 @@ class Status
 			}
 		}
 		return "";
+	}
+	
+	/**
+	 * 実行関数のスケルトン追加
+	 * 
+	 * @param funcName 関数名
+	 */
+	private function _addExecSkeleton(funcName:String):void
+	{
+		_skeleton += "public function " + funcName + "(context:IExecCtx):void\n";
+		_skeleton += "{\n";
+		_skeleton += "}\n";
+	}
+	/**
+	 * 描画関数のスケルトン追加
+	 * 
+	 * @param funcName 関数名
+	 */
+	private function _addDrawSkeleton(funcName:String):void
+	{
+		_skeleton += "public function " + funcName + "(context:IDrawCtx):void\n";
+		_skeleton += "{\n";
+		_skeleton += "}\n";
+	}
+	/**
+	 * 条件関数のスケルトン追加
+	 * 
+	 * @param funcName 関数名
+	 */
+	private function _addCondSkeleton(funcName:String):void
+	{
+		_skeleton += "public function " + funcName + "(context:IExecCtx):Boolean\n";
+		_skeleton += "{\n";
+		_skeleton += "\treturn false;\n";
+		_skeleton += "}\n";
+	}
+	
+	/**
+	 * 文字列表現取得
+	 * 
+	 * @return スケルトン
+	 */
+	public function toString():String
+	{
+		return _skeleton;
 	}
 }
