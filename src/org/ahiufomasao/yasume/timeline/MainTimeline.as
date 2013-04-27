@@ -2,12 +2,57 @@
 {
 	import flash.display.IBitmapDrawable;
 	import flash.errors.IllegalOperationError;
+	import flash.events.EventDispatcher;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
 	import org.ahiufomasao.utility.display.BitmapCanvas;
 	import org.ahiufomasao.utility.geom.Vector2D;
 	import org.ahiufomasao.utility.MathUtility;
+	import org.ahiufomasao.yasume.events.TimelineEvent;
+	
+	/**
+	 * <code>gotoFrame</code> メソッドを呼び出した際、フレームが変更される直前に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.TimelineEvent.CHANGE_FRAME_BEFORE
+	 * 
+	 * @see #gotoFrame()
+	 */
+	[Event(name="changeFrameBefore", type="org.ahiufomasao.yasume.events.TimelineEvent")]
+	/**
+	 * <code>gotoFrame</code> メソッドを呼び出した際、フレームが変更される直後に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.TimelineEvent.CHANGE_FRAME_AFTER
+	 * 
+	 * @see #gotoFrame()
+	 */
+	[Event(name="changeFrameAfter", type="org.ahiufomasao.yasume.events.TimelineEvent")]
+	
+	/**
+	 * <code>animate</code> メソッドを呼び出した際、フレームが変更される直前に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.TimelineEvent.ANIMATE_BEFORE
+	 * 
+	 * @see #animate()
+	 */
+	[Event(name="animateBefore", type="org.ahiufomasao.yasume.events.TimelineEvent")]
+	/**
+	 * <code>animate</code> メソッドを呼び出した際、フレームが変更される直後に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.TimelineEvent.ANIMATE_AFTER
+	 * 
+	 * @see #animate()
+	 */
+	[Event(name="animateAfter", type="org.ahiufomasao.yasume.events.TimelineEvent")]
+	
+	/**
+	 * <code>animate</code> メソッドを呼び出した際、現在有効な子タイムラインのフレームの最後まで再生が終わった場合に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.TimelineEvent.ANIMATION_END
+	 * 
+	 * @see #animate()
+	 */
+	[Event(name="animationEnd", type="org.ahiufomasao.yasume.events.TimelineEvent")]
 	
 	/**
 	 * <code>MainTimeline</code> クラスは、複数の <code>ChildTimeline</code> オブジェクトを管理します.
@@ -38,16 +83,31 @@
 	 * @see TimelineGraphics
 	 * @see BitmapCanvas
 	 */
-	public class MainTimeline 
+	public class MainTimeline extends EventDispatcher 
 	{
 		private var _hitAreaDrawingSetting:HitAreaDrawingSetting; // 当たり判定エリア描画設定
 		
 		private var _currentFrameName:String;   // 現在のフレームの名前
 		private var _childTimelines:Dictionary; // 子タイムラインリスト
 		
+		private var _animationEnd:Boolean; // 子タイムラインの再生が完了したら true
+		
 		private var _point:Point;       // 汎用ポイント
 		private var _matrix:Matrix;     // 汎用マトリックス
 		private var _vector2D:Vector2D; // 汎用スピード
+		
+		/**
+		 * 登録されている <code>ChildTimeline</code> オブジェクトのリストです.
+		 */
+		public function get childTimelines():Vector.<ChildTimeline>
+		{
+			var childs:Vector.<ChildTimeline> = new Vector.<ChildTimeline>();
+			for each (var child:ChildTimeline in _childTimelines)
+			{
+				childs.push(child);
+			}
+			return childs;
+		}
 		
 		/**
 		 * 当たり判定エリアの描画設定です.
@@ -85,6 +145,14 @@
 		}
 		
 		/**
+		 * <code>animate</code> メソッドを呼び出した際、
+		 * 現在有効な子タイムラインのフレームの最後まで再生が終わった場合に <code>true</code> が設定されます.
+		 * 
+		 * @see #animate()
+		 */
+		public function get animationEnd():Boolean { return _animationEnd; }
+		
+		/**
 		 * 新しい <code>MainTimeline</code> クラスのインスタンスを生成します.
 		 */
 		public function MainTimeline() 
@@ -93,6 +161,8 @@
 			
 			_currentFrameName = "";
 			_childTimelines   = new Dictionary();
+			
+			_animationEnd = false;
 			
 			_point    = new Point();
 			_matrix   = new Matrix();
@@ -138,7 +208,21 @@
 			childTimeline.setParent(this);
 			_childTimelines[frameName] = childTimeline;
 			
+			childTimeline.addEventListener(TimelineEvent.ANIMATION_END, _onAnimationEnd, false, 0, true);
+			
 			return childTimeline;
+		}
+		
+		/**
+		 * @private
+		 * アニメーション完了イベント
+		 * 
+		 * @param event イベント
+		 */
+		private function _onAnimationEnd(event:TimelineEvent):void
+		{
+			_animationEnd = true;
+			dispatchEvent(new TimelineEvent(TimelineEvent.ANIMATION_END));
 		}
 		
 		/**
@@ -176,6 +260,8 @@
 				throw new ArgumentError("指定されたフレーム名は存在しません。[frameName = " + frameName + "]");
 			}
 			
+			dispatchEvent(new TimelineEvent(TimelineEvent.CHANGE_FRAME_BEFORE));
+			
 			// 攻撃グループリセット
 			var attackHitArea:AttackHitArea;
 			var childTimeline:ChildTimeline = currentChildTimeline;
@@ -198,6 +284,9 @@
 			_currentFrameName = frameName;
 			
 			currentChildTimeline.makeItToActive();
+			
+			dispatchEvent(new TimelineEvent(TimelineEvent.CHANGE_FRAME_AFTER));
+			_animationEnd = false;
 		}
 		
 		/**
@@ -213,7 +302,11 @@
 				throw new IllegalOperationError("子タイムラインが1件も登録されていません。");
 			}
 			
+			dispatchEvent(new TimelineEvent(TimelineEvent.ANIMATE_BEFORE));
+			
 			currentChildTimeline.animate();
+			
+			dispatchEvent(new TimelineEvent(TimelineEvent.ANIMATE_AFTER));
 		}
 		
 		// TODO: テスト方法確定後に実施
