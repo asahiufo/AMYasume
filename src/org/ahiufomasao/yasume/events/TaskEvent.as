@@ -3,7 +3,7 @@
 	import flash.events.Event;
 	
 	/**
-	 * <code>TaskEvent</code> クラスは <code>Task</code>クラス を操作することによって送出されます.
+	 * <code>TaskEvent</code> クラスは <code>Task</code>　クラスを操作することによって送出されます.
 	 * 
 	 * @author asahiufo/AM902
 	 * @see Task
@@ -169,7 +169,7 @@
 		 * <tr><td>cancelable</td><td><code>false</code> は、キャンセルするデフォルトの動作がないことを示します。</td></tr>
 		 * <tr><td>currentTarget</td><td>イベントリスナーで <code>TaskEvent</code> オブジェクトをアクティブに処理しているオブジェクトです。</td></tr>
 		 * <tr><td>target</td><td>イベントの発生元の <code>Task</code> オブジェクトです。</td></tr>
-		 * <tr><td>context</td><td>実行コンテキストです。</td></tr>
+		 * <tr><td>context</td><td>描画コンテキストです。</td></tr>
 		 * </table>
 		 * 
 		 * @eventType drawBefore
@@ -184,7 +184,7 @@
 		 * <tr><td>cancelable</td><td><code>false</code> は、キャンセルするデフォルトの動作がないことを示します。</td></tr>
 		 * <tr><td>currentTarget</td><td>イベントリスナーで <code>TaskEvent</code> オブジェクトをアクティブに処理しているオブジェクトです。</td></tr>
 		 * <tr><td>target</td><td>イベントの発生元の <code>Task</code> オブジェクトです。</td></tr>
-		 * <tr><td>context</td><td>実行コンテキストです。</td></tr>
+		 * <tr><td>context</td><td>描画コンテキストです。</td></tr>
 		 * </table>
 		 * 
 		 * @eventType drawAfter
