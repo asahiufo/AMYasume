@@ -2,11 +2,22 @@
 {
 	import flash.display.Shape;
 	import flash.errors.IllegalOperationError;
+	import flash.events.EventDispatcher;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	import org.ahiufomasao.utility.display.BitmapCanvas;
 	import org.ahiufomasao.utility.display.GraphicsDrawer;
+	import org.ahiufomasao.yasume.events.TimelineEvent;
+	
+	/**
+	 * <code>animate</code> メソッドを呼び出した際、フレームの最後まで再生が終わった場合に送出されます.
+	 * 
+	 * @eventType org.ahiufomasao.yasume.events.TimelineEvent.ANIMATION_END
+	 * 
+	 * @see #animate()
+	 */
+	[Event(name="animationEnd", type="org.ahiufomasao.yasume.events.TimelineEvent")]
 	
 	/**
 	 * <code>ChildTimeline</code> クラスは、アニメーションデータを管理します.
@@ -41,7 +52,7 @@
 	 * @see #currentDamageHitArea
 	 * @see #currentAttackHitArea
 	 */
-	public class ChildTimeline
+	public class ChildTimeline extends EventDispatcher
 	{
 		private var _parent:MainTimeline;            // メインタイムライン
 		
@@ -688,6 +699,8 @@
 			// 最後のフレームを超えた場合
 			else
 			{
+				dispatchEvent(new TimelineEvent(TimelineEvent.ANIMATION_END));
+				
 				// リピート再生するなら
 				if (_repeat)
 				{
