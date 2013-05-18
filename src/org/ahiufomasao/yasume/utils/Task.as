@@ -152,8 +152,8 @@
 		{
 			super();
 			
-			_execFunc = null;
-			_drawFunc = null;
+			_execFunc = execSleep;
+			_drawFunc = drawSleep;
 			
 			_beforeExecFunc = null;
 			_beforeDrawFunc = null;
@@ -241,6 +241,19 @@
 			event = new TaskEvent(TaskEvent.DRAW_AFTER);
 			event.context = context;
 			dispatchEvent(event);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function execSleep(context:Object):void
+		{
+		}
+		/**
+		 * @inheritDoc
+		 */
+		public function drawSleep(context:Object):void
+		{
 		}
 	}
 }
