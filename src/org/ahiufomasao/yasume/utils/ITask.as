@@ -104,5 +104,16 @@ package org.ahiufomasao.yasume.utils
 		 * @param context 描画コンテキストです。
 		 */
 		function draw(context:Object):void;
+		
+		/**
+		 * 何も処理を行わない実行関数です.
+		 * @param context 実行コンテキストです。
+		 */
+		function execSleep(context:Object):void;
+		/**
+		 * 何も処理を行わない描画関数です.
+		 * @param context 描画コンテキストです。
+		 */
+		function drawSleep(context:Object):void;
 	}
 }
